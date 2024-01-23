@@ -1,0 +1,11 @@
+#!/bin/sh
+
+go fmt ./...
+find . -name '*.go' -exec goimports -local containerh/ -w {} +
+find . -name '*.go' -exec golines -w {} -m 120 \;
+
+golangci-lint run ./...
+if [ $? -ne 0 ]; then
+  echo "golangci-lint failed, commit denied"
+  exit 1
+fi

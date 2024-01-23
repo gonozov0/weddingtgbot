@@ -1,0 +1,61 @@
+{
+  "httpMethod": "POST",
+  "headers": {
+    "Accept-Encoding": "gzip, deflate",
+    "Content-Length": "397",
+    "Content-Type": "application/json",
+    "Host": "functions.yandexcloud.net",
+    "Uber-Trace-Id": "34abc521cbc97f6f:043ae8a1baf64cac:34abc521cbc97f6f:1",
+    "X-Forwarded-For": "91.108.6.144",
+    "X-Real-Remote-Address": "[91.108.6.144]:52832",
+    "X-Request-Id": "88455398-002f-40e7-b6f6-86a069b7467b",
+    "X-Trace-Id": "73ccfa6f-3c62-4517-800b-884e5e48817a"
+  },
+  "url": "",
+  "params": {},
+  "multiValueParams": {},
+  "pathParams": {},
+  "multiValueHeaders": {
+    "Accept-Encoding": [
+      "gzip, deflate"
+    ],
+    "Content-Length": [
+      "397"
+    ],
+    "Content-Type": [
+      "application/json"
+    ],
+    "Host": [
+      "functions.yandexcloud.net"
+    ],
+    "Uber-Trace-Id": [
+      "34abc521cbc97f6f:043ae8a1baf64cac:34abc521cbc97f6f:1"
+    ],
+    "X-Forwarded-For": [
+      "91.108.6.144"
+    ],
+    "X-Real-Remote-Address": [
+      "[91.108.6.144]:52832"
+    ],
+    "X-Request-Id": [
+      "88455398-002f-40e7-b6f6-86a069b7467b"
+    ],
+    "X-Trace-Id": [
+      "73ccfa6f-3c62-4517-800b-884e5e48817a"
+    ]
+  },
+  "queryStringParameters": {},
+  "multiValueQueryStringParameters": {},
+  "requestContext": {
+    "identity": {
+      "sourceIp": "91.108.6.144",
+      "userAgent": ""
+    },
+    "httpMethod": "POST",
+    "requestId": "88455398-002f-40e7-b6f6-86a069b7467b",
+    "requestTime": "23/Jan/2024:09:42:04 +0000",
+    "requestTimeEpoch": 1706002924
+  },
+  "body": "{\"update_id\":191067120,\n\"message\":{\"message_id\":24,\"from\":{\"id\":288295826,\"is_bot\":false,\"first_name\":\"Dmitriy\",\"last_name\":\"Gonozov\",\"username\":\"gonozov0\",\"language_code\":\"en\",\"is_premium\":true},\"chat\":{\"id\":288295826,\"first_name\":\"Dmitriy\",\"last_name\":\"Gonozov\",\"username\":\"gonozov0\",\"type\":\"private\"},\"date\":1706002924,\"text\":\"/start\",\"entities\":[{\"offset\":0,\"length\":6,\"type\":\"bot_command\"}]}}",
+  "isBase64Encoded": false
+}
