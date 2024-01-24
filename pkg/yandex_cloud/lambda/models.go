@@ -2,7 +2,7 @@ package lambda
 
 // Request represents struct that is passed to cloud function in Yandex Cloud.
 type Request struct {
-	HttpMethod                      string              `json:"httpMethod"`
+	HTTPMethod                      string              `json:"httpMethod"`
 	Headers                         map[string]string   `json:"headers"`
 	URL                             string              `json:"url"`
 	Params                          map[string]string   `json:"params"`
@@ -21,7 +21,7 @@ type requestContext struct {
 		SourceIP  string `json:"sourceIp"`
 		UserAgent string `json:"userAgent"`
 	} `json:"identity"`
-	HttpMethod       string `json:"httpMethod"`
+	HTTPMethod       string `json:"httpMethod"`
 	RequestID        string `json:"requestId"`
 	RequestTime      string `json:"requestTime"`
 	RequestTimeEpoch int64  `json:"requestTimeEpoch"`

@@ -5,12 +5,13 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"log/slog"
+	"net/http"
 	"os"
 )
 
 // Request represents struct that is passed to cloud function in Yandex Cloud.
 type Request struct {
-	HttpMethod                      string              `json:"httpMethod"`
+	HTTPMethod                      string              `json:"httpMethod"`
 	Headers                         map[string]string   `json:"headers"`
 	URL                             string              `json:"url"`
 	Params                          map[string]string   `json:"params"`
@@ -29,7 +30,7 @@ type requestContext struct {
 		SourceIP  string `json:"sourceIp"`
 		UserAgent string `json:"userAgent"`
 	} `json:"identity"`
-	HttpMethod       string `json:"httpMethod"`
+	HTTPMethod       string `json:"httpMethod"`
 	RequestID        string `json:"requestId"`
 	RequestTime      string `json:"requestTime"`
 	RequestTimeEpoch int64  `json:"requestTimeEpoch"`
@@ -41,7 +42,7 @@ type Response struct {
 	Body       interface{} `json:"body"`
 }
 
-func Handler(ctx context.Context, rawReq []byte) (*Response, error) {
+func Handler(_ context.Context, rawReq []byte) (*Response, error) {
 	setupLogger()
 	slog.Info("Raw request data", slog.String("req", string(rawReq)))
 
@@ -73,7 +74,7 @@ func Handler(ctx context.Context, rawReq []byte) (*Response, error) {
 	slog.Info("Decoded request body", slog.String("body", string(body)))
 
 	return &Response{
-		StatusCode: 200,
+		StatusCode: http.StatusOK,
 		Body:       "ok",
 	}, nil
 }

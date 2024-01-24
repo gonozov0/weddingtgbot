@@ -28,5 +28,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	slog.Info("Web hook set up", slog.String("url", webhookURL), slog.String("bot", bot.Self.UserName))
+	slog.Info(
+		"Web hook set up",
+		slog.String("url", webhookURL),
+		slog.String("bot", bot.Self.UserName),
+	)
 }

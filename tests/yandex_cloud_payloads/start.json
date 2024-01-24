@@ -1,7 +1,7 @@
 {
   "httpMethod": "POST",
   "headers": {
-    "Accept-Encoding": "gzip, deflate",
+    "Accept-Encoding": "gzip, deflate",a
     "Content-Length": "397",
     "Content-Type": "application/json",
     "Host": "functions.yandexcloud.net",
