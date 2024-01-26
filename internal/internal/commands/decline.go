@@ -1,4 +1,4 @@
-package callbacks
+package commands
 
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
@@ -15,17 +15,9 @@ func Decline(bot *tgbotapi.BotAPI, dto DeclineDTO) *logger.SlogError {
 		dto.ChatID,
 		"Вы отказались от приглашения. Мы будем скучать!",
 	)
+	msg.ReplyMarkup = getFinishReplyKeyboard()
 	if _, err := bot.Send(msg); err != nil {
 		return logger.NewSlogError(err, "error sending message")
-	}
-
-	edit := tgbotapi.NewEditMessageReplyMarkup(
-		dto.ChatID,
-		dto.MsgID,
-		getEmptyInlineKeyboard(),
-	)
-	if _, err := bot.Send(edit); err != nil {
-		return logger.NewSlogError(err, "error updating message")
 	}
 
 	return nil

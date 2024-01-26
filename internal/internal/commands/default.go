@@ -8,7 +8,7 @@ import (
 func Unknown(bot *tgbotapi.BotAPI, chatID int64) *logger.SlogError {
 	msg := tgbotapi.NewMessage(
 		chatID,
-		"Извините, я вас не понимаю. Пожалуйста, выберите один из вариантов ответа выше.",
+		"Выберите, пожалуйста, один из предложенных вариантов.",
 	)
 	if _, err := bot.Send(msg); err != nil {
 		return logger.NewSlogError(err, "error sending message")
