@@ -14,10 +14,19 @@ func HandleUpdate(bot *tgbotapi.BotAPI, update tgbotapi.Update) *logger.SlogErro
 				Photo:  update.Message.Photo,
 			})
 		}
+		if update.Message.Contact != nil {
+			return commands.Start(bot, commands.StartDTO{
+				ChatID: update.Message.Chat.ID,
+				Login:  update.Message.Contact.PhoneNumber,
+			})
+		}
 
 		switch update.Message.Text {
-		case commands.StartCommand, commands.ChangeAnswerCommand:
-			return commands.Start(bot, update.Message.Chat.ID)
+		case commands.StartCommand, commands.StartAgainCommand:
+			return commands.Start(bot, commands.StartDTO{
+				ChatID: update.Message.Chat.ID,
+				Login:  update.Message.From.UserName,
+			})
 		case commands.AcceptCommand:
 			return commands.Accept(bot, commands.AcceptDTO{
 				ChatID: update.Message.Chat.ID,
@@ -28,9 +37,9 @@ func HandleUpdate(bot *tgbotapi.BotAPI, update tgbotapi.Update) *logger.SlogErro
 				ChatID: update.Message.Chat.ID,
 				MsgID:  update.Message.MessageID,
 			})
+		default:
+			return commands.Unknown(bot, update.Message.Chat.ID)
 		}
-
-		return commands.Unknown(bot, update.Message.Chat.ID)
 	}
 
 	return logger.NewSlogError(nil, "got unknown update type")

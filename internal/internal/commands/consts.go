@@ -7,6 +7,6 @@ const (
 	AcceptCommand string = "Принять приглашение"
 	// DeclineCommand is the command to decline an invitation.
 	DeclineCommand string = "К сожалению, не смогу"
-	// ChangeAnswerCommand is the command to change an answer.
-	ChangeAnswerCommand string = "Изменить ответ"
+	// StartAgainCommand is the command to change an answer.
+	StartAgainCommand string = "Начать заново"
 )

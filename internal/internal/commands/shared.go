@@ -7,7 +7,7 @@ import (
 func getFinishReplyKeyboard() tgbotapi.ReplyKeyboardMarkup {
 	return tgbotapi.NewReplyKeyboard(
 		tgbotapi.NewKeyboardButtonRow(
-			tgbotapi.NewKeyboardButton(ChangeAnswerCommand),
+			tgbotapi.NewKeyboardButton(StartAgainCommand),
 		),
 	)
 }

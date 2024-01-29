@@ -1,3 +1,6 @@
+include .env
+export
+
 lint:
 	go fmt ./...
 	find . -name '*.go' -exec goimports -local containerh/ -w {} +
