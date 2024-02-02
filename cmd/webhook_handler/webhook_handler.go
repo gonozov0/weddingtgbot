@@ -8,9 +8,9 @@ import (
 	"os"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	"github.com/gonozov0/weddingbot/internal"
-	"github.com/gonozov0/weddingbot/pkg/logger"
-	"github.com/gonozov0/weddingbot/pkg/yandex_cloud/lambda"
+	"github.com/gonozov0/weddingtgbot/internal"
+	"github.com/gonozov0/weddingtgbot/pkg/logger"
+	"github.com/gonozov0/weddingtgbot/pkg/yandex_cloud/lambda"
 )
 
 func Handler(ctx context.Context, rawReq []byte) (*lambda.Response, error) {

@@ -1,21 +1,22 @@
-package commands
+package decline
 
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	"github.com/gonozov0/weddingbot/pkg/logger"
+	"github.com/gonozov0/weddingtgbot/internal/internal/commands/shared"
+	"github.com/gonozov0/weddingtgbot/pkg/logger"
 )
 
-type DeclineDTO struct {
+type DTO struct {
 	ChatID int64
 	MsgID  int
 }
 
-func Decline(bot *tgbotapi.BotAPI, dto DeclineDTO) *logger.SlogError {
+func Do(bot *tgbotapi.BotAPI, dto DTO) *logger.SlogError {
 	msg := tgbotapi.NewMessage(
 		dto.ChatID,
 		"Вы отказались от приглашения. Мы будем скучать!",
 	)
-	msg.ReplyMarkup = getFinishReplyKeyboard()
+	msg.ReplyMarkup = shared.GetFinishReplyKeyboard()
 	if _, err := bot.Send(msg); err != nil {
 		return logger.NewSlogError(err, "error sending message")
 	}

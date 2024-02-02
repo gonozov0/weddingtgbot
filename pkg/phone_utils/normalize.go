@@ -14,7 +14,3 @@ func NormalizePhoneNumber(phoneNumber string) string {
 	}
 	return normalized.String()
 }
-
-func ArePhoneNumbersEqual(phone1, phone2 string) bool {
-	return NormalizePhoneNumber(phone1) == NormalizePhoneNumber(phone2)
-}

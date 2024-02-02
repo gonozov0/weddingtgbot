@@ -1,11 +1,11 @@
-package commands
+package unknown
 
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	"github.com/gonozov0/weddingbot/pkg/logger"
+	"github.com/gonozov0/weddingtgbot/pkg/logger"
 )
 
-func Unknown(bot *tgbotapi.BotAPI, chatID int64) *logger.SlogError {
+func Do(bot *tgbotapi.BotAPI, chatID int64) *logger.SlogError {
 	msg := tgbotapi.NewMessage(
 		chatID,
 		"Выберите, пожалуйста, один из предложенных вариантов.",

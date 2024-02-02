@@ -7,7 +7,7 @@ import (
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 
-	"github.com/gonozov0/weddingbot/pkg/logger"
+	"github.com/gonozov0/weddingtgbot/pkg/logger"
 )
 
 func main() {

@@ -1,4 +1,4 @@
-module github.com/gonozov0/weddingbot
+module github.com/gonozov0/weddingtgbot
 
 go 1.21
 
