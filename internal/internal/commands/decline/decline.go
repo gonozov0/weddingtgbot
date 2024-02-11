@@ -6,6 +6,13 @@ import (
 	"github.com/gonozov0/weddingtgbot/pkg/logger"
 )
 
+const (
+	declineAnswer = `
+Очень жаль, что вы не сможете быть с нами :(
+Если вдруг ваше решение изменится, напишите Оле, чтобы сообщить эту радостную новость:
+`
+)
+
 type DTO struct {
 	ChatID int64
 	MsgID  int
@@ -14,11 +21,16 @@ type DTO struct {
 func Do(bot *tgbotapi.BotAPI, dto DTO) *logger.SlogError {
 	msg := tgbotapi.NewMessage(
 		dto.ChatID,
-		"Вы отказались от приглашения. Мы будем скучать!",
+		declineAnswer,
 	)
-	msg.ReplyMarkup = shared.GetFinishReplyKeyboard()
 	if _, err := bot.Send(msg); err != nil {
 		return logger.NewSlogError(err, "error sending message")
+	}
+
+	contact := shared.GetOlyaContact(dto.ChatID)
+	contact.ReplyMarkup = shared.GetFinishReplyKeyboard()
+	if _, err := bot.Send(contact); err != nil {
+		return logger.NewSlogError(err, "error sending contact")
 	}
 
 	return nil

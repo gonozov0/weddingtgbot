@@ -5,12 +5,8 @@ import (
 	"github.com/gonozov0/weddingtgbot/internal/internal/commands"
 )
 
-func GetFinishReplyKeyboard() tgbotapi.ReplyKeyboardMarkup {
-	return tgbotapi.NewReplyKeyboard(
-		tgbotapi.NewKeyboardButtonRow(
-			tgbotapi.NewKeyboardButton(commands.StartAgainCommand),
-		),
-	)
+func GetFinishReplyKeyboard() tgbotapi.ReplyKeyboardRemove {
+	return tgbotapi.NewRemoveKeyboard(true)
 }
 
 func GetAnswerReplyKeyboard() tgbotapi.ReplyKeyboardMarkup {
