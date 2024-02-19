@@ -1,8 +1,11 @@
 package start
 
 import (
+	"fmt"
+
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/gonozov0/weddingtgbot/internal/internal/commands/shared"
+	"github.com/gonozov0/weddingtgbot/internal/internal/commands/shared/owner_chat"
 	"github.com/gonozov0/weddingtgbot/pkg/logger"
 )
 
@@ -20,7 +23,12 @@ func Do(bot *tgbotapi.BotAPI, dto DTO) *logger.SlogError {
 		return shared.SendNotInvitedInfo(bot, dto.ChatID)
 	}
 
-	return sendInvitation(bot, dto.ChatID)
+	personInfo := shared.GetPersonInfo(dto.Login)
+	if err := owner_chat.SendStart(bot, personInfo.GetFullName()); err != nil {
+		return err
+	}
+
+	return sendInvitation(bot, dto.ChatID, personInfo.Name)
 }
 
 func requestPhoneNumber(bot *tgbotapi.BotAPI, chatID int64) *logger.SlogError {
@@ -46,15 +54,15 @@ func requestPhoneNumber(bot *tgbotapi.BotAPI, chatID int64) *logger.SlogError {
 	return nil
 }
 
-func sendInvitation(bot *tgbotapi.BotAPI, chatID int64) *logger.SlogError {
+func sendInvitation(bot *tgbotapi.BotAPI, chatID int64, name string) *logger.SlogError {
 	photoGroup := tgbotapi.NewPhoto(chatID, tgbotapi.FileID(photoFileID))
 	if _, err := bot.Send(photoGroup); err != nil {
 		return logger.NewSlogError(err, "error sending photo")
 	}
 
-	msg := tgbotapi.NewMessage(chatID, invitationGuestText)
+	msg := tgbotapi.NewMessage(chatID, fmt.Sprintf(invitationGuestText, name))
 	msg.ParseMode = "Markdown"
-	msg.ReplyMarkup = shared.GetAnswerReplyKeyboard()
+	msg.ReplyMarkup = shared.GetStartReplyKeyboard()
 	if _, err := bot.Send(msg); err != nil {
 		return logger.NewSlogError(err, "error sending message")
 	}

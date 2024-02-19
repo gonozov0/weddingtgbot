@@ -20,7 +20,7 @@ func SendNotInvitedInfo(bot *tgbotapi.BotAPI, chatID int64) *logger.SlogError {
 	}
 
 	contact := GetOlyaContact(chatID)
-	contact.ReplyMarkup = GetFinishReplyKeyboard()
+	contact.ReplyMarkup = GetEmptyReplyKeyboard()
 	if _, err := bot.Send(contact); err != nil {
 		return logger.NewSlogError(err, "error sending contact")
 	}

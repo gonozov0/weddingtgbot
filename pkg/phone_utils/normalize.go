@@ -5,7 +5,7 @@ import (
 	"unicode"
 )
 
-func NormalizePhoneNumber(phoneNumber string) string {
+func Normalize(phoneNumber string) string {
 	var normalized strings.Builder
 	for _, r := range phoneNumber {
 		if unicode.IsDigit(r) {

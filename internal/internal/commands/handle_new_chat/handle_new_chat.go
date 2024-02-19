@@ -15,7 +15,9 @@ type DTO struct {
 
 func Do(bot *tgbotapi.BotAPI, dto DTO) *logger.SlogError {
 	if dto.Status != "member" {
-		slog.Warn("got unknown status for new chat", slog.String("status", dto.Status))
+		if dto.Status != "left" {
+			slog.Warn("got unknown status for new chat", slog.String("status", dto.Status))
+		}
 		return nil
 	}
 

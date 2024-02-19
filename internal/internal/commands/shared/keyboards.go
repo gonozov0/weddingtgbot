@@ -5,15 +5,29 @@ import (
 	"github.com/gonozov0/weddingtgbot/internal/internal/commands"
 )
 
-func GetFinishReplyKeyboard() tgbotapi.ReplyKeyboardRemove {
+func GetEmptyReplyKeyboard() tgbotapi.ReplyKeyboardRemove {
 	return tgbotapi.NewRemoveKeyboard(true)
 }
 
-func GetAnswerReplyKeyboard() tgbotapi.ReplyKeyboardMarkup {
+func GetStartReplyKeyboard() tgbotapi.ReplyKeyboardMarkup {
 	return tgbotapi.NewReplyKeyboard(
 		tgbotapi.NewKeyboardButtonRow(
-			tgbotapi.NewKeyboardButton(commands.AcceptCommand),
-			tgbotapi.NewKeyboardButton(commands.DeclineCommand),
+			tgbotapi.NewKeyboardButton(commands.Accept),
+			tgbotapi.NewKeyboardButton(commands.Decline),
+		),
+	)
+}
+
+func GetTransferReplyKeyboard() tgbotapi.ReplyKeyboardMarkup {
+	return tgbotapi.NewReplyKeyboard(
+		tgbotapi.NewKeyboardButtonRow(
+			tgbotapi.NewKeyboardButton(commands.TransferNotNeeded),
+		),
+		tgbotapi.NewKeyboardButtonRow(
+			tgbotapi.NewKeyboardButton(commands.RostovTransferNeeded),
+		),
+		tgbotapi.NewKeyboardButtonRow(
+			tgbotapi.NewKeyboardButton(commands.YaroslavlTransferNeeded),
 		),
 	)
 }
