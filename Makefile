@@ -20,4 +20,7 @@ zip_and_push_to_cloud:
 	   --service-account-id aje6c77di14c8bcs77ib \
 	   --log-group-name default \
 	   --network-name default \
-	   --secret environment-variable=TG_BOT_TOKEN,id=e6qroi83kor4oin8r05q,version-id=e6qrrktg16eb5em1slqh,key=TG_BOT_TOKEN
+	   --secret environment-variable=TG_BOT_TOKEN,id=e6qroi83kor4oin8r05q,version-id=e6qnhv1alns3r3j7tpjh,key=TG_BOT_TOKEN \
+	   --secret environment-variable=YC_ACCESS_KEY_ID,id=e6qroi83kor4oin8r05q,version-id=e6qnhv1alns3r3j7tpjh,key=YC_ACCESS_KEY_ID \
+	   --secret environment-variable=YC_SECRET_ACCESS_KEY,id=e6qroi83kor4oin8r05q,version-id=e6qnhv1alns3r3j7tpjh,key=YC_SECRET_ACCESS_KEY \
+	   --environment YC_BUCKET_NAME=weddingtgbot

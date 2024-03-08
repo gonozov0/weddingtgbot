@@ -9,6 +9,7 @@ import (
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/gonozov0/weddingtgbot/internal"
+	"github.com/gonozov0/weddingtgbot/internal/repository"
 	"github.com/gonozov0/weddingtgbot/pkg/logger"
 	"github.com/gonozov0/weddingtgbot/pkg/yandex_cloud/lambda"
 )
@@ -34,10 +35,16 @@ func Handler(ctx context.Context, rawReq []byte) (*lambda.Response, error) {
 		return nil, err
 	}
 
-	handleErr := internal.HandleUpdate(bot, update)
-	if handleErr != nil {
-		handleErr.Log(ctx)
-		return nil, handleErr
+	s3Repo, slogErr := repository.NewS3Repository()
+	if slogErr != nil {
+		slogErr.Log(ctx)
+		return nil, slogErr
+	}
+
+	slogErr = internal.HandleUpdate(bot, s3Repo, update)
+	if slogErr != nil {
+		slogErr.Log(ctx)
+		return nil, slogErr
 	}
 
 	return &lambda.Response{
