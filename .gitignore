@@ -23,5 +23,7 @@ go.work
 .env
 .idea/
 
-zip/
-!zip/.gitkeep
+zip/*
+creds/*
+
+!*.gitkeep

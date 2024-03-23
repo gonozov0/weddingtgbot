@@ -2,9 +2,8 @@ package wishes
 
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	"github.com/gonozov0/weddingtgbot/internal/commands/user/shared"
 	"github.com/gonozov0/weddingtgbot/internal/notifications"
-	"github.com/gonozov0/weddingtgbot/internal/repository"
+	"github.com/gonozov0/weddingtgbot/internal/repository/s3"
 	"github.com/gonozov0/weddingtgbot/pkg/logger"
 )
 
@@ -14,7 +13,7 @@ type DTO struct {
 	Wishes string
 }
 
-func Do(bot *tgbotapi.BotAPI, s3Repo *repository.S3Repository, dto DTO) *logger.SlogError {
+func Do(bot *tgbotapi.BotAPI, s3Repo *s3.Repository, dto DTO) *logger.SlogError {
 	anws, err := s3Repo.GetAnswers(dto.TgID)
 	if err != nil {
 		return err
@@ -28,11 +27,21 @@ func Do(bot *tgbotapi.BotAPI, s3Repo *repository.S3Repository, dto DTO) *logger.
 	if err != nil {
 		return err
 	}
-	if err = notifications.SendComplete(bot, cfg.AdminChatID, anws.Name); err != nil {
+	if err = notifications.SendComplete(bot, cfg.AdminChatID, anws.FirstName); err != nil {
 		return err
 	}
 
-	msg := tgbotapi.NewMessage(dto.ChatID, shared.CompleteMessage)
+	msg := tgbotapi.NewMessage(dto.ChatID, dressCodeMessage)
+	if _, err := bot.Send(msg); err != nil {
+		return logger.NewSlogError(err, "error sending message")
+	}
+
+	photo := tgbotapi.NewPhoto(dto.ChatID, tgbotapi.FileID(dressCodeFileID))
+	if _, err := bot.Send(photo); err != nil {
+		return logger.NewSlogError(err, "error sending photo")
+	}
+
+	msg = tgbotapi.NewMessage(dto.ChatID, completeMessage)
 	if _, err := bot.Send(msg); err != nil {
 		return logger.NewSlogError(err, "error sending message")
 	}

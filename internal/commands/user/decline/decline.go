@@ -3,7 +3,8 @@ package decline
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/gonozov0/weddingtgbot/internal/commands/user/shared"
-	"github.com/gonozov0/weddingtgbot/internal/repository"
+	"github.com/gonozov0/weddingtgbot/internal/notifications"
+	"github.com/gonozov0/weddingtgbot/internal/repository/s3"
 	"github.com/gonozov0/weddingtgbot/pkg/logger"
 )
 
@@ -13,7 +14,7 @@ type DTO struct {
 	MsgID  int
 }
 
-func Do(bot *tgbotapi.BotAPI, s3Repo *repository.S3Repository, dto DTO) *logger.SlogError {
+func Do(bot *tgbotapi.BotAPI, s3Repo *s3.Repository, dto DTO) *logger.SlogError {
 	anws, err := s3Repo.GetAnswers(dto.TgID)
 	if err != nil {
 		return err
@@ -25,18 +26,21 @@ func Do(bot *tgbotapi.BotAPI, s3Repo *repository.S3Repository, dto DTO) *logger.
 		return err
 	}
 
+	cfg, err := s3Repo.GetConfig()
+	if err != nil {
+		return err
+	}
+	if err = notifications.SendComplete(bot, cfg.AdminChatID, anws.FirstName); err != nil {
+		return err
+	}
+
 	msg := tgbotapi.NewMessage(
 		dto.ChatID,
 		declineText,
 	)
+	msg.ReplyMarkup = shared.GetEmptyReplyKeyboard()
 	if _, err := bot.Send(msg); err != nil {
 		return logger.NewSlogError(err, "error sending message")
-	}
-
-	contact := shared.GetOlyaContact(dto.ChatID)
-	contact.ReplyMarkup = shared.GetEmptyReplyKeyboard()
-	if _, err := bot.Send(contact); err != nil {
-		return logger.NewSlogError(err, "error sending contact")
 	}
 
 	return nil

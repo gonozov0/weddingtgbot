@@ -12,7 +12,7 @@ const TransferMessage = `
 `
 
 func GetTransferReplyKeyboard() tgbotapi.ReplyKeyboardMarkup {
-	return tgbotapi.NewReplyKeyboard(
+	keyboard := tgbotapi.NewReplyKeyboard(
 		tgbotapi.NewKeyboardButtonRow(
 			tgbotapi.NewKeyboardButton(commands.TransferNotNeeded),
 		),
@@ -23,4 +23,6 @@ func GetTransferReplyKeyboard() tgbotapi.ReplyKeyboardMarkup {
 			tgbotapi.NewKeyboardButton(commands.YaroslavlTransferNeeded),
 		),
 	)
+	keyboard.OneTimeKeyboard = false
+	return keyboard
 }

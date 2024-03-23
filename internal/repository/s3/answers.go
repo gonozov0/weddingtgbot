@@ -1,4 +1,4 @@
-package repository
+package s3
 
 import (
 	"bytes"
@@ -14,7 +14,8 @@ import (
 
 type GuestAnswers struct {
 	TgID         int64  `json:"tg_id"`
-	Name         string `json:"name"`
+	FirstName    string `json:"first_name"`
+	LastName     string `json:"last_name"`
 	IsAccepted   *bool  `json:"is_accepted"`
 	WithSomebody *bool  `json:"with_somebody"`
 	SecondGuest  string `json:"second_guest"`
@@ -22,7 +23,7 @@ type GuestAnswers struct {
 	Wishes       string `json:"wishes"`
 }
 
-func (repo *S3Repository) SaveAnswers(anws GuestAnswers) *logger.SlogError {
+func (repo *Repository) SaveAnswers(anws GuestAnswers) *logger.SlogError {
 	body, err := json.Marshal(anws)
 	if err != nil {
 		return logger.NewSlogError(err, "error marshalling guest answers")
@@ -40,7 +41,7 @@ func (repo *S3Repository) SaveAnswers(anws GuestAnswers) *logger.SlogError {
 	return nil
 }
 
-func (repo *S3Repository) GetAnswers(tgID int64) (*GuestAnswers, *logger.SlogError) {
+func (repo *Repository) GetAnswers(tgID int64) (*GuestAnswers, *logger.SlogError) {
 	resp, err := repo.client.GetObject(context.TODO(), &s3.GetObjectInput{
 		Bucket: &repo.bucketName,
 		Key:    aws.String(strconv.FormatInt(tgID, 10) + ".json"),
@@ -58,6 +59,47 @@ func (repo *S3Repository) GetAnswers(tgID int64) (*GuestAnswers, *logger.SlogErr
 	var answers *GuestAnswers
 	if err := json.Unmarshal(body, &answers); err != nil {
 		return nil, logger.NewSlogError(err, "error unmarshalling guest answers")
+	}
+
+	return answers, nil
+}
+
+func (repo *Repository) GetAllAnswers() ([]GuestAnswers, *logger.SlogError) {
+	resp, err := repo.client.ListObjectsV2(context.TODO(), &s3.ListObjectsV2Input{
+		Bucket: &repo.bucketName,
+	})
+	if err != nil {
+		return nil, logger.NewSlogError(err, "error listing objects in s3")
+	}
+
+	var answers []GuestAnswers
+	for _, obj := range resp.Contents {
+		if obj.Key != nil {
+			if *obj.Key == "bot_config.json" {
+				continue
+			}
+
+			resp, err := repo.client.GetObject(context.TODO(), &s3.GetObjectInput{
+				Bucket: &repo.bucketName,
+				Key:    obj.Key,
+			})
+			if err != nil {
+				return nil, logger.NewSlogError(err, "error getting object from s3")
+			}
+			defer resp.Body.Close()
+
+			body, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return nil, logger.NewSlogError(err, "error reading object body")
+			}
+
+			var answer GuestAnswers
+			if err := json.Unmarshal(body, &answer); err != nil {
+				return nil, logger.NewSlogError(err, "error unmarshalling guest answers")
+			}
+
+			answers = append(answers, answer)
+		}
 	}
 
 	return answers, nil

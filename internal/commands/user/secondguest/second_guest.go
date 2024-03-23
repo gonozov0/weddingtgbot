@@ -3,7 +3,7 @@ package secondguest
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/gonozov0/weddingtgbot/internal/commands/user/shared"
-	"github.com/gonozov0/weddingtgbot/internal/repository"
+	"github.com/gonozov0/weddingtgbot/internal/repository/s3"
 	"github.com/gonozov0/weddingtgbot/pkg/logger"
 )
 
@@ -13,7 +13,7 @@ type DTO struct {
 	SecondGuest string
 }
 
-func Do(bot *tgbotapi.BotAPI, s3Repo *repository.S3Repository, dto DTO) *logger.SlogError {
+func Do(bot *tgbotapi.BotAPI, s3Repo *s3.Repository, dto DTO) *logger.SlogError {
 	anws, err := s3Repo.GetAnswers(dto.TgID)
 	if err != nil {
 		return err

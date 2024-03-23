@@ -15,11 +15,11 @@ import (
 	"github.com/gonozov0/weddingtgbot/internal/commands/user/unknown"
 	"github.com/gonozov0/weddingtgbot/internal/commands/user/wishes"
 	"github.com/gonozov0/weddingtgbot/internal/commands/user/withsomebody"
-	"github.com/gonozov0/weddingtgbot/internal/repository"
+	"github.com/gonozov0/weddingtgbot/internal/repository/s3"
 	"github.com/gonozov0/weddingtgbot/pkg/logger"
 )
 
-func HandleCommands(bot *tgbotapi.BotAPI, s3Repo *repository.S3Repository, update tgbotapi.Update) *logger.SlogError {
+func HandleCommands(bot *tgbotapi.BotAPI, s3Repo *s3.Repository, update tgbotapi.Update) *logger.SlogError {
 	if update.Message.ReplyToMessage != nil {
 		if strings.TrimSpace(update.Message.ReplyToMessage.Text) == strings.TrimSpace(shared.SecondGuestMessage) {
 			return secondguest.Do(bot, s3Repo, secondguest.DTO{

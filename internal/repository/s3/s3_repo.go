@@ -1,4 +1,4 @@
-package repository
+package s3
 
 import (
 	"context"
@@ -12,12 +12,12 @@ import (
 	"github.com/gonozov0/weddingtgbot/pkg/logger"
 )
 
-type S3Repository struct {
+type Repository struct {
 	client     *s3.Client
 	bucketName string
 }
 
-func NewS3Repository() (*S3Repository, *logger.SlogError) {
+func NewRepository() (*Repository, *logger.SlogError) {
 	customResolver := aws.EndpointResolverWithOptionsFunc(
 		func(service, region string, _ ...interface{}) (aws.Endpoint, error) {
 			if service == s3.ServiceID && region == "ru-central1" {
@@ -47,7 +47,7 @@ func NewS3Repository() (*S3Repository, *logger.SlogError) {
 
 	client := s3.NewFromConfig(cfg)
 
-	return &S3Repository{
+	return &Repository{
 		client:     client,
 		bucketName: bucketName,
 	}, nil

@@ -1,4 +1,4 @@
-package repository
+package s3
 
 import (
 	"bytes"
@@ -15,16 +15,20 @@ const botConfigPath = "bot_config.json"
 
 type (
 	TgID int64
-	Name string
 )
 
-type BotConfig struct {
-	PhotoFileID string        `json:"photo_file_id"`
-	AdminChatID int64         `json:"admin_chat_id"`
-	GuestsInfo  map[TgID]Name `json:"guests_info"`
+type GuestInfo struct {
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
 }
 
-func (repo *S3Repository) GetConfig() (*BotConfig, *logger.SlogError) {
+type BotConfig struct {
+	PhotoFileID string             `json:"photo_file_id"`
+	AdminChatID int64              `json:"admin_chat_id"`
+	GuestsInfo  map[TgID]GuestInfo `json:"guests_info"`
+}
+
+func (repo *Repository) GetConfig() (*BotConfig, *logger.SlogError) {
 	resp, err := repo.client.GetObject(context.TODO(), &s3.GetObjectInput{
 		Bucket: &repo.bucketName,
 		Key:    aws.String(botConfigPath),
@@ -47,7 +51,7 @@ func (repo *S3Repository) GetConfig() (*BotConfig, *logger.SlogError) {
 	return config, nil
 }
 
-func (repo *S3Repository) SaveConfig(config BotConfig) *logger.SlogError {
+func (repo *Repository) SaveConfig(config BotConfig) *logger.SlogError {
 	body, err := json.Marshal(config)
 	if err != nil {
 		return logger.NewSlogError(err, "error marshalling bot config")

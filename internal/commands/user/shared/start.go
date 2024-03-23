@@ -6,10 +6,12 @@ import (
 )
 
 func GetStartReplyKeyboard() tgbotapi.ReplyKeyboardMarkup {
-	return tgbotapi.NewReplyKeyboard(
+	keyboard := tgbotapi.NewReplyKeyboard(
 		tgbotapi.NewKeyboardButtonRow(
 			tgbotapi.NewKeyboardButton(commands.Accept),
 			tgbotapi.NewKeyboardButton(commands.Decline),
 		),
 	)
+	keyboard.OneTimeKeyboard = false
+	return keyboard
 }
