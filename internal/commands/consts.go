@@ -12,9 +12,7 @@ const (
 	// WithSomebody is the command to answer that a guest will come with someone.
 	WithSomebody string = "С кем-то еще"
 	// TransferNotNeeded is the command to answer that a guest does not need a transfer.
-	TransferNotNeeded string = "Не нужен"
+	TransferNotNeeded string = "Доберусь самостоятельно"
 	// RostovTransferNeeded is the command to answer that a guest needs a transfer from Rostov.
-	RostovTransferNeeded string = "Нужен в Ростов"
-	// YaroslavlTransferNeeded is the command to answer that a guest needs a transfer from Yaroslavl.
-	YaroslavlTransferNeeded string = "Нужен в Ярославль"
+	RostovTransferNeeded string = "Нужен из Ростова (и обратно)"
 )

@@ -26,8 +26,6 @@ func Do(bot *tgbotapi.BotAPI, s3Repo *s3.Repository, dto DTO) *logger.SlogError 
 		needTransfer = "No"
 	case commands.RostovTransferNeeded:
 		needTransfer = "Rostov"
-	case commands.YaroslavlTransferNeeded:
-		needTransfer = "Yaroslavl"
 	}
 	anws.NeedTransfer = needTransfer
 

@@ -31,17 +31,7 @@ func Do(bot *tgbotapi.BotAPI, s3Repo *s3.Repository, dto DTO) *logger.SlogError 
 		return err
 	}
 
-	msg := tgbotapi.NewMessage(dto.ChatID, dressCodeMessage)
-	if _, err := bot.Send(msg); err != nil {
-		return logger.NewSlogError(err, "error sending message")
-	}
-
-	photo := tgbotapi.NewPhoto(dto.ChatID, tgbotapi.FileID(dressCodeFileID))
-	if _, err := bot.Send(photo); err != nil {
-		return logger.NewSlogError(err, "error sending photo")
-	}
-
-	msg = tgbotapi.NewMessage(dto.ChatID, completeMessage)
+	msg := tgbotapi.NewMessage(dto.ChatID, completeMessage)
 	if _, err := bot.Send(msg); err != nil {
 		return logger.NewSlogError(err, "error sending message")
 	}

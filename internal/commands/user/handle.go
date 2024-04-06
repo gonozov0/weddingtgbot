@@ -65,7 +65,7 @@ func HandleCommands(bot *tgbotapi.BotAPI, s3Repo *s3.Repository, update tgbotapi
 			TgID:   update.Message.From.ID,
 			ChatID: update.Message.Chat.ID,
 		})
-	case commands.TransferNotNeeded, commands.RostovTransferNeeded, commands.YaroslavlTransferNeeded:
+	case commands.TransferNotNeeded, commands.RostovTransferNeeded:
 		return transfer.Do(bot, s3Repo, transfer.DTO{
 			TgID:    update.Message.From.ID,
 			ChatID:  update.Message.Chat.ID,

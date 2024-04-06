@@ -19,9 +19,6 @@ func GetTransferReplyKeyboard() tgbotapi.ReplyKeyboardMarkup {
 		tgbotapi.NewKeyboardButtonRow(
 			tgbotapi.NewKeyboardButton(commands.RostovTransferNeeded),
 		),
-		tgbotapi.NewKeyboardButtonRow(
-			tgbotapi.NewKeyboardButton(commands.YaroslavlTransferNeeded),
-		),
 	)
 	keyboard.OneTimeKeyboard = false
 	return keyboard
